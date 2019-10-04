@@ -4,22 +4,29 @@ import { storeTypes } from '../../reducers/configureStore';
 import { fetchUser } from '../../actions/fetchGithubUser/fetchGithubUser';
 
 export default function FetchGithubUser(): JSX.Element {
-  const isPinging = useSelector((state: storeTypes) => state.pingingReducer.isPinging);
+  const userInfo = useSelector((state: storeTypes) => state.fetchGithubUserReducer.userInfo);
 
   const dispatch = useDispatch();
 
   return (
     <>
-      <div>{`${isPinging}`}</div>
-
       <button
         type="button"
         onClick={(): void => {
           dispatch(fetchUser('littlehorseboy'));
         }}
       >
-        Start PING
+        Fetch User Info
       </button>
+
+      <br />
+
+      <textarea
+        cols={100}
+        rows={30}
+        value={JSON.stringify(userInfo, null, 2)}
+        onChange={(): void => {}}
+      />
     </>
   );
 }

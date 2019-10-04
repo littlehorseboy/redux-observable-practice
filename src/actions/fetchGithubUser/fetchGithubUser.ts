@@ -43,7 +43,7 @@ Observable<fetchGithubUserActionTypes> => action$.pipe(
     }))
       .pipe(
         map((response): FetchUserFulfilledI => fetchUserFulfilled(
-          response.data.success ? response.data : { },
+          response.data ? response.data : { },
         )),
         catchError((error): Observable<never> => Observable.throw(error)),
       ),
