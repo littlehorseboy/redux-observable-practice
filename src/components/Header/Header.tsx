@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { routes } from '../../router/Router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +26,17 @@ export default function Header(): JSX.Element {
       <Typography>Header</Typography>
       <div>
         <Button color="inherit" component={Link} to="/">Home</Button>
-        <Button color="inherit" component={Link} to="/pinging">Pinging</Button>
+
+        {routes[0].routes && routes[0].routes.map((route) => (
+          <Button
+            key={route.path}
+            color="inherit"
+            component={Link}
+            to={route.path}
+          >
+            {route.breadcrumbName}
+          </Button>
+        ))}
       </div>
     </Container>
   );

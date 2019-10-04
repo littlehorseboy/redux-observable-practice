@@ -3,6 +3,7 @@ import { HashRouter, Route, RouteComponentProps } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import Home from '../pages/Home/Home';
 import Pinging from '../components/Pinging/Pinging';
+import FetchGithubUser from '../components/FetchGithubUser/FetchGithubUser';
 
 interface RouteWithSubRoutesPropsI {
   route: RouteI;
@@ -44,7 +45,11 @@ export const routes: RouteI[] = [
         path: '/pinging',
         Component: Pinging,
         breadcrumbName: 'Pinging',
-        isPrivate: true,
+      },
+      {
+        path: '/fetchGithubUser',
+        Component: FetchGithubUser,
+        breadcrumbName: 'FetchGithubUser',
       },
     ],
   },
