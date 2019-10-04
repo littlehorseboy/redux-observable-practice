@@ -4,7 +4,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import indigo from '@material-ui/core/colors/indigo';
 import store from './reducers/configureStore';
-import Pinging from './components/Pinging/Pinging';
+import Router from './router/Router';
 
 const theme = createMuiTheme({
   palette: {
@@ -24,7 +24,7 @@ export default function Root(): JSX.Element {
       <CssBaseline />
       <MuiThemeProvider theme={theme}>
         <Provider store={store}>
-          <Pinging />
+          <Router />
         </Provider>
       </MuiThemeProvider>
     </>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { storeTypes } from '../../reducers/configureStore';
-import { ping } from '../../actions/pinging/pinging';
+import { fetchUser } from '../../actions/fetchGithubUser/fetchGithubUser';
 
-export default function Pinging(): JSX.Element {
+export default function FetchGithubUser(): JSX.Element {
   const isPinging = useSelector((state: storeTypes) => state.pingingReducer.isPinging);
 
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export default function Pinging(): JSX.Element {
       <button
         type="button"
         onClick={(): void => {
-          dispatch(ping());
+          dispatch(fetchUser('littlehorseboy'));
         }}
       >
         Start PING
