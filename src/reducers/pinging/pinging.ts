@@ -4,7 +4,7 @@ interface IsPingingI {
   isPinging: boolean;
 }
 
-const initState = {
+const initState: IsPingingI = {
   isPinging: false,
 };
 

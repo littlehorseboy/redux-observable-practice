@@ -4,6 +4,7 @@ import Header from '../components/Header/Header';
 import Home from '../pages/Home/Home';
 import Pinging from '../components/Pinging/Pinging';
 import FetchGithubUser from '../components/FetchGithubUser/FetchGithubUser';
+import Counter from '../components/Counter/Counter';
 
 interface RouteWithSubRoutesPropsI {
   route: RouteI;
@@ -50,6 +51,11 @@ export const routes: RouteI[] = [
         path: '/fetchGithubUser',
         Component: FetchGithubUser,
         breadcrumbName: 'FetchGithubUser',
+      },
+      {
+        path: '/counter',
+        Component: Counter,
+        breadcrumbName: 'Counter',
       },
     ],
   },
