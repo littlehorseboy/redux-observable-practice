@@ -1,10 +1,13 @@
 import Axios from 'axios';
-import { from, Observable } from 'rxjs';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import {
+  mergeMap, map, catchError, takeUntil, delay, filter,
+} from 'rxjs/operators';
 import { ofType, Epic } from 'redux-observable';
 
 export const FETCH_USER = 'FETCH_USER';
 export const FETCH_USER_FILFILLED = 'FETCH_USER_FILFILLED';
+export const FETCH_USER_CANCELLED = 'FETCH_USER_CANCELLED';
 
 interface FetchUserI {
   type: typeof FETCH_USER;
@@ -34,20 +37,46 @@ export const fetchUserFulfilled = (userInfo: Record<string, string>): FetchUserF
   },
 });
 
-export const fetchUserEpic: Epic<fetchGithubUserActionTypes> = (action$):
-Observable<fetchGithubUserActionTypes> => action$.pipe(
+interface FetchUserCancelledI {
+  type: typeof FETCH_USER_CANCELLED;
+}
+
+export const fetchUserCancelled = (): FetchUserCancelledI => ({
+  type: FETCH_USER_CANCELLED,
+});
+
+// export const fetchUserEpic: Epic<fetchGithubUserActionTypes> = (action$) => action$.pipe(
+//   ofType(FETCH_USER),
+//   mergeMap(
+//     (action): Observable<FetchUserFulfilledI> => from(Axios({
+//       url: `https://api.github.com/users/${(action as FetchUserI).payload.username}`,
+//     }))
+//       .pipe(
+//         map((response): FetchUserFulfilledI => fetchUserFulfilled(
+//           response.data ? response.data : { },
+//         )),
+//         takeUntil(action$.pipe(ofType(FETCH_USER_CANCELLED))),
+//         catchError((error): Observable<never> => Observable.throw(error)),
+//       ),
+//   ),
+// );
+
+export const fetchUserEpic: Epic<fetchGithubUserActionTypes> = (action$) => action$.pipe(
   ofType(FETCH_USER),
   mergeMap(
-    (action): Observable<FetchUserFulfilledI> => from(Axios({
-      url: `https://api.github.com/users/${(action as FetchUserI).payload.username}`,
-    }))
+    (): Observable<FetchUserFulfilledI> => of({
+      data: { id: '123' },
+    })
+      .pipe(delay(1000))
       .pipe(
         map((response): FetchUserFulfilledI => fetchUserFulfilled(
           response.data ? response.data : { },
         )),
+        // takeUntil(action$.pipe(ofType(FETCH_USER_CANCELLED))),
+        takeUntil(action$.pipe(filter(((action) => action.type === FETCH_USER_CANCELLED)))),
         catchError((error): Observable<never> => Observable.throw(error)),
       ),
   ),
 );
 
-export type fetchGithubUserActionTypes = FetchUserI | FetchUserFulfilledI;
+export type fetchGithubUserActionTypes = FetchUserI | FetchUserFulfilledI | FetchUserCancelledI;
